@@ -13,7 +13,7 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 class Attendance_table(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     user_id=models.IntegerField()
-    
+
     class Meta:
         ordering=('created',)
 #this table for analysis
@@ -21,11 +21,11 @@ class Analysis_table(models.Model):
     user_id = models.IntegerField(blank=False, null=False)
     attendance_date = models.DateField(auto_now_add=True)
     working_hrs = models.FloatField(blank=False, null=False)
-    login_time = models.DateTimeField(auto_now_add=False)
-    logout_time = models.DateTimeField(auto_now_add=False)
+    login_time = models.DateTimeField(auto_now_add=True)
+    logout_time = models.DateTimeField(auto_now_add=True)
     state  = models.IntegerField(blank=False, null=False)
-    
-    
+
+
     class Meta:
         ordering=('attendance_date',)
-    
+
