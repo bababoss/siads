@@ -19,9 +19,9 @@ from rest_framework import status
 
 #import other module
 from datetime import datetime
-from django.utils import timezone
 
-import time
+
+
 
 
 #  class based views for attendance_table model--------------------------------------------
@@ -29,13 +29,13 @@ import time
 class Attendance_tableList(APIView):
     """
     List all attendance_table , or create a new attendance_table
-    
+
     """
     def get(self, request, format=None):
         attendance_table = Attendance_table.objects.all()
         serializer  = Attendance_tableSerializer(attendance_table,many=True)
         return Response(serializer.data)
-    
+
     def post(self, request, format=None):
         serializer = Attendance_tableSerializer(data=request.data)
         if serializer.is_valid():
@@ -47,7 +47,7 @@ class Attendance_tableList(APIView):
 class Attendance_tableDetail(APIView):
     """
     Retrive , update, or delete a attendance_table instance.
-    
+
     """
     def get_object(self,pk):
         try:
@@ -58,7 +58,7 @@ class Attendance_tableDetail(APIView):
         attendance_table = self.get_object(pk)
         serializer=Attendance_tableSerializer(attendance_table)
         return Response(serializer.data)
-    
+
     def put(self, request, pk, format=None):
         attendance_table=self.get_object(pk)
         serializer=Attendance_tableSerializer(attendance_table,data=request.data)
@@ -71,12 +71,12 @@ class Attendance_tableDetail(APIView):
         attendance_table.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     #print "datetime",timezone.now()
-    
-#----------------------end --------------------------------------------------------------    
+
+#----------------------end --------------------------------------------------------------
 
 
 
-    
+
 #  class based views for analysis_table model--------------------------------------------
 
 
@@ -129,13 +129,13 @@ class Analysis_tableDetail(APIView):
 #------------------------------------end.........................................................
 def analysis_table_data():
     return 0
-    
+
 def index(request):
     now=datetime.now()
     user_ids=1000
     login_times=now
     logout_times=now
-    y='%Y-%m-%d %H:%M:%S.%f'
+
     print now.day
     while (user_ids!=1050):
         j=1
@@ -163,18 +163,14 @@ def index(request):
             k+=1
             if(j==k):
                 logout_times=i.created
-                
-        #login_times=login_times.replace(tzinfo=timezone.get_current_timezone())
-        #logout_times=logout_times.replace(tzinfo=timezone.get_current_timezone())
-        #login_times= timezone.localize(login_times)
-        #logout_times= timezone.localize(logout_times)
-        print "times is here ======",times_s/3600
+
+
         print "login_times",login_times, "logout_time",logout_times
         analysis_table=Analysis_table(user_id=user_ids,working_hrs=times_s,login_time=login_times,logout_time=logout_times,state=j)
         analysis_table.save()
         user_ids+=1
 
-   
+
 
     return render(request,'attendance/index.html', {})
 

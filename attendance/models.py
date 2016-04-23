@@ -21,8 +21,8 @@ class Analysis_table(models.Model):
     user_id = models.IntegerField(blank=False, null=False)
     attendance_date = models.DateField(auto_now_add=True)
     working_hrs = models.FloatField(blank=False, null=False)
-    login_time = models.DateTimeField(auto_now_add=True)
-    logout_time = models.DateTimeField(auto_now_add=True)
+    login_time = models.DateTimeField(auto_now_add=False)
+    logout_time = models.DateTimeField(auto_now_add=False)
     state  = models.IntegerField(blank=False, null=False)
 
 
