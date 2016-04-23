@@ -31,8 +31,8 @@ class Attendance_tableList(APIView):
     List all attendance_table , or create a new attendance_table
 
     """
-    def get(self, request, format=None):
-        attendance_table = Attendance_table.objects.all()
+    def get(self, request,user_id, format=None):
+        attendance_table = Attendance_table.objects.filter(user_id__contains=user_id)
         serializer  = Attendance_tableSerializer(attendance_table,many=True)
         return Response(serializer.data)
 
@@ -141,9 +141,8 @@ def index(request):
         j=1
         k=1
         times=0
-        times_s=0
 
-        query = Attendance_table.objects.filter(user_id__contains = user_ids,created__year=now.year)
+        query = Attendance_table.objects.filter(user_id__contains = user_ids,created__year=now.year,created__month=now.month,created__day=now.day)
         print "user_id====",user_ids
         for i in query:
             print i
@@ -157,16 +156,29 @@ def index(request):
                 print "even",j
                 timediff = i.created - temp
                 times=timediff.total_seconds()
-                times_s+=times
+                times+=times
                 j+=1
         for i in query:
             k+=1
             if(j==k):
                 logout_times=i.created
+<<<<<<< HEAD
 
 
+||||||| merged common ancestors
+                
+        #login_times=login_times.replace(tzinfo=timezone.get_current_timezone())
+        #logout_times=logout_times.replace(tzinfo=timezone.get_current_timezone())
+        #login_times= timezone.localize(login_times)
+        #logout_times= timezone.localize(logout_times)
+        print "times is here ======",times_s/3600
+=======
+        times=times/3600       
+        print "times is here ======",times
+        
+>>>>>>> 88b5db959bfddbcbd5a99fe98969706e7722052b
         print "login_times",login_times, "logout_time",logout_times
-        analysis_table=Analysis_table(user_id=user_ids,working_hrs=times_s,login_time=login_times,logout_time=logout_times,state=j)
+        analysis_table=Analysis_table(user_id=user_ids,working_hrs=times,login_time=login_times,logout_time=logout_times,state=j)
         analysis_table.save()
         user_ids+=1
 
