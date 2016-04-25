@@ -31,8 +31,8 @@ class Attendance_tableList(APIView):
     List all attendance_table , or create a new attendance_table
     
     """
-    def get(self, request,user_id, format=None):
-        attendance_table = Attendance_table.objects.filter(user_id__contains=user_id)
+    def get(self, request, format=None):
+        attendance_table = Attendance_table.objects.all()
         serializer  = Attendance_tableSerializer(attendance_table,many=True)
         return Response(serializer.data)
     
@@ -132,15 +132,16 @@ def analysis_table_data():
     
 def index(request):
     now=datetime.now()
-    user_ids=1000
+    user_ids=1030
     login_times=now
     logout_times=now
-    y='%Y-%m-%d %H:%M:%S.%f'
+
     print now.day
     while (user_ids!=1050):
         j=1
         k=1
         times=0
+        working_hr=0
 
         query = Attendance_table.objects.filter(user_id__contains = user_ids,created__year=now.year,created__month=now.month,created__day=now.day)
         print "user_id====",user_ids
@@ -152,21 +153,23 @@ def index(request):
                     login_times=i.created
                 temp=i.created
                 j+=1
-            elif (j%2 == 0):
+            elif(j%2 == 0):
                 print "even",j
                 timediff = i.created - temp
                 times=timediff.total_seconds()
-                times+=times
+                working_hr=working_hr+times
                 j+=1
+                print "time in hours====",working_hr/3600
+
+        working_hr=working_hr/3600       
+        print "times is here ======",working_hr
+        j=j-1
         for i in query:
-            k+=1
             if(j==k):
                 logout_times=i.created
-        times=times/3600       
-        print "times is here ======",times
-        
+            k+=1        
         print "login_times",login_times, "logout_time",logout_times
-        analysis_table=Analysis_table(user_id=user_ids,working_hrs=times,login_time=login_times,logout_time=logout_times,state=j)
+        analysis_table=Analysis_table(user_id=user_ids,working_hrs=working_hr,login_time=login_times,logout_time=logout_times,state=j)
         analysis_table.save()
         user_ids+=1
 
@@ -174,5 +177,10 @@ def index(request):
 
     return render(request,'attendance/index.html', {})
 
-
+# this function for home page
+def home(request):
+    #analysis_table_object=Analysis_tableList()
+    #data=analysis_table_object.get(request,user_id,year,month, format=None)
+    
+    return render(request,'attendance/home.html',{})
 # Create your views here.
