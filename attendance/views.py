@@ -162,21 +162,12 @@ def index(request):
             k+=1
             if(j==k):
                 logout_times=i.created
-<<<<<<< HEAD
 
 
-||||||| merged common ancestors
-                
-        #login_times=login_times.replace(tzinfo=timezone.get_current_timezone())
-        #logout_times=logout_times.replace(tzinfo=timezone.get_current_timezone())
-        #login_times= timezone.localize(login_times)
-        #logout_times= timezone.localize(logout_times)
-        print "times is here ======",times_s/3600
-=======
-        times=times/3600       
+        times=times/3600
         print "times is here ======",times
-        
->>>>>>> 88b5db959bfddbcbd5a99fe98969706e7722052b
+
+
         print "login_times",login_times, "logout_time",logout_times
         analysis_table=Analysis_table(user_id=user_ids,working_hrs=times,login_time=login_times,logout_time=logout_times,state=j)
         analysis_table.save()
