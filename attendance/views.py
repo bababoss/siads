@@ -161,26 +161,14 @@ def index(request):
                 j+=1
                 print "time in hours====",working_hr/3600
 
-        working_hr=working_hr/3600       
+        working_hr=working_hr/3600
         print "times is here ======",working_hr
         j=j-1
         for i in query:
             if(j==k):
                 logout_times=i.created
-<<<<<<< HEAD
+            k+=1
 
-
-        times=times/3600
-        print "times is here ======",times
-
-
-||||||| merged common ancestors
-        times=times/3600       
-        print "times is here ======",times
-        
-=======
-            k+=1        
->>>>>>> 7cba5f1fc6e869998519958e13ad4cf505edee79
         print "login_times",login_times, "logout_time",logout_times
         analysis_table=Analysis_table(user_id=user_ids,working_hrs=working_hr,login_time=login_times,logout_time=logout_times,state=j)
         analysis_table.save()
@@ -194,6 +182,6 @@ def index(request):
 def home(request):
     #analysis_table_object=Analysis_tableList()
     #data=analysis_table_object.get(request,user_id,year,month, format=None)
-    
+
     return render(request,'attendance/home.html',{})
 # Create your views here.

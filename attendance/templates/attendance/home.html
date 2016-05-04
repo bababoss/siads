@@ -1,98 +1,594 @@
- <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Si2chip dashboard</title>
-		<style>
-		
-		</style>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>		
-	<script src="http://code.highcharts.com/highcharts.js"></script>
-	
-	<script type="text/javascript">
-        $(function () {
-				var url = 'http://127.0.0.1:8000/attendance/1030/2016/04/'
-                var processed_json = new Array();   
-                $.getJSON(url, function(data) {
-                    // Populate series
-                    for (i = 0; i < data.length; i++){
-                        processed_json.push([data[i].attendance_date, data[i].working_hrs]);
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Sip2Chip</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="/static/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="/static/css/_all-skins.min.css">
+        <!-- jQuery 2.1.4 -->
+        <script src="/static/js/jQuery-2.1.4.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/app.min.js"></script>
+        <script src="/static/js/validate.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            #datepicker {
+                width: 180px;
+            }
+            #datepicker > span:hover {
+                cursor: pointer;
+            }
+            #datepicke2 {
+                width: 180px;
+            }
+            #datepicker2 > span:hover {
+                cursor: pointer;
+            }
+            #datepicker3 {
+                width: 180px;
+            }
+            #datepicker3 > span:hover {
+                cursor: pointer;
+            }
+            #datepicker4 {
+                width: 180px;
+            }
+            #datepicker4 > span:hover {
+                cursor: pointer;
+            }
+        </style>
+        <script type="text/javascript">
+            function frm_valid() {
+                // validate  form on keyup and submit
+                f1_val = $("#search1").validate({
+                    rules: {
+                        'uid': {
+                            required: true
+                        },
+                        'sdate': {
+                            required: true
+                        }
                     }
-                 
-                    // draw chart
-                    $('#container2').highcharts({
-                    chart: {
-                        type: "column"
-                    },
-                    title: {
-                        text: "Employee working  hours"
-                    },
-                    xAxis: {
-                        type: 'category',
-                        allowDecimals: false,
-                        title: {
-                            text: "date"
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            function frm_valid2() {
+                // validate  form on keyup and submit
+                f1_val = $("#search2").validate({
+                    rules: {
+                        'uid2': {
+                            required: true
+                        },
+                        'sdate2': {
+                            required: true
                         }
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Working hours"
-                        }
-                    },
-                    series: [{
-	                    name: 'Working hours per day:',
-                        data: processed_json
-                    }]
-                }); 
-            });
-        });
-        
-        
-        $(function () {
-				var url = 'http://127.0.0.1:8000/attendance/1030/2016/04/'
-                var processed_json = new Array();   
-                $.getJSON(url, function(data) {
-                    // Populate series
-                    for (i = 0; i < data.length; i++){
-                        processed_json.push([data[i].attendance_date, data[i].working_hrs]);
                     }
-                 
-                    // draw chart
-                    $('#container1').highcharts({
-                    chart: {
-                        type: "column"
-                    },
-                    title: {
-                        text: "Employee working  hours"
-                    },
-                    xAxis: {
-                        type: 'category',
-                        allowDecimals: false,
-                        title: {
-                            text: "date"
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            function frm_valid3() {
+                // validate  form on keyup and submit
+                f1_val = $("#search3").validate({
+                    rules: {
+                        'uid3': {
+                            required: true
+                        },
+                        'sdate3': {
+                            required: true
                         }
-                    },
-                    yAxis: {
-                        title: {
-                            text: "Working hours"
+                    }
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            function frm_valid4() {
+                // validate  form on keyup and submit
+                f1_val = $("#search4").validate({
+                    rules: {
+                        'uid4': {
+                            required: true
+                        },
+                        'sdate4': {
+                            required: true
                         }
-                    },
-                    series: [{
-	                    name: 'Working hours per day:',
-                        data: processed_json
-                    }]
-                }); 
+                    }
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            $(document).ready(function() {
+                $("#datepicker").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+                $("#datepicker2").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+                $("#datepicker3").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+                $("#datepicker4").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+                $("#b1").click(function() {
+                    var z = frm_valid();
+                    if (z == true) {
+                        var d = document.getElementById("date").value;
+                        var date = d.slice(0, -2);
+                        var uid = document.getElementById("userid").value;
+                        var ur = "http://bharatsush.pythonanywhere.com/attendance/";
+                        var url = ur + uid + "/" + date + "?format=json";
+                        var processed_json = new Array();
+                        $.getJSON(url, function(data) {
+                            // Populate series
+                            for (i = 0; i < data.length; i++) {
+                                processed_json.push([data[i].attendance_date, data[i].working_hrs]);
+                            }
+                            // draw chart
+                            $('#areaChart').highcharts({
+                                chart: {
+                                    type: 'area',
+                                    margin: [30,30,55,30],
+                                    options3d: {
+                                        enabled: true,
+                                        alpha: 15,
+                                        beta: 15,
+                                        depth: 50
+                                    }
+                                },
+                                plotOptions: {
+                                    column: {
+                                        depth: 25
+                                    }
+                                },
+                                title: {
+                                    text: "Employee working  hours"
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    allowDecimals: false,
+                                    title: {
+                                        text: "date"
+                                    }
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: "Working hours"
+                                    }
+                                },
+                                series: [{
+                                        name: 'Working hours per day:',
+                                        data: processed_json
+                                    }]
+                            });
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+                $("#b2").click(function() {
+                    var z = frm_valid2();
+                    if (z == true) {
+                        var d = document.getElementById("date2").value;
+                        var date = d.slice(0, -2);
+                        var uid = document.getElementById("userid2").value;
+                        var ur = "http://bharatsush.pythonanywhere.com/attendance/";
+                        var url = ur + uid + "/" + date + "?format=json";
+                        var processed_json = new Array();
+                        $.getJSON(url, function(data) {
+                            // Populate series
+                            for (i = 0; i < data.length; i++) {
+                                processed_json.push([data[i].attendance_date, data[i].working_hrs]);
+                            }
+                            // draw chart
+                            $('#barChart').highcharts({
+                                chart: {
+                                    type: 'bar',
+                                    margin: [30,30,55,30],
+                                    options3d: {
+                                        enabled: true,
+                                        alpha: 15,
+                                        beta: 15,
+                                        depth: 50
+                                    }
+                                },
+                                plotOptions: {
+                                    column: {
+                                        depth: 25
+                                    }
+                                },
+                                title: {
+                                    text: "Employee working  hours"
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    allowDecimals: false,
+                                    title: {
+                                        text: "date"
+                                    }
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: "Working hours"
+                                    }
+                                },
+                                series: [{
+                                        name: 'Working hours per day:',
+                                        data: processed_json
+                                    }]
+                            });
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+                $("#b3").click(function() {
+                    var z = frm_valid3();
+                    if (z == true) {
+                        var d = document.getElementById("date3").value;
+                        var date = d.slice(0, -2);
+                        var uid = document.getElementById("userid3").value;
+                        var ur = "http://bharatsush.pythonanywhere.com/attendance/";
+                        var url = ur + uid + "/" + date + "?format=json";
+                        var processed_json = new Array();
+                        $.getJSON(url, function(data) {
+                            // Populate series
+                            for (i = 0; i < data.length; i++) {
+                                processed_json.push([data[i].attendance_date, data[i].working_hrs]);
+                            }
+                            // draw chart
+                            $('#lineChart').highcharts({
+                                chart: {
+                                    type: 'line',
+                                    margin: [30,30,55,30],
+                                    options3d: {
+                                        enabled: true,
+                                        alpha: 15,
+                                        beta: 15,
+                                        depth: 50
+                                    }
+                                },
+                                plotOptions: {
+                                    column: {
+                                        depth: 25
+                                    }
+                                },
+                                title: {
+                                    text: "Employee working  hours"
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    allowDecimals: false,
+                                    title: {
+                                        text: "date"
+                                    }
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: "Working hours"
+                                    }
+                                },
+                                series: [{
+                                        name: 'Working hours per day:',
+                                        data: processed_json
+                                    }]
+                            });
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+                $("#b4").click(function() {
+                    var z = frm_valid4();
+                    if (z == true) {
+                        var d = document.getElementById("date4").value;
+                        var date = d.slice(0, -2);
+                        var uid = document.getElementById("userid4").value;
+                        var ur = "http://bharatsush.pythonanywhere.com/attendance/";
+                        var url = ur + uid + "/" + date + "?format=json";
+                        var processed_json = new Array();
+                        $.getJSON(url, function(data) {
+                            // Populate series
+                            for (i = 0; i < data.length; i++) {
+                                processed_json.push([data[i].attendance_date, data[i].working_hrs]);
+                            }
+                            // draw chart
+                            $('#columnChart').highcharts({
+                                chart: {
+                                    type: 'column',
+                                    margin: [30,30,55,30],
+                                    options3d: {
+                                        enabled: true,
+                                        alpha: 15,
+                                        beta: 15,
+                                        depth: 50
+                                    }
+                                },
+                                plotOptions: {
+                                    column: {
+                                        depth: 25
+                                    }
+                                },
+                                title: {
+                                    text: "Employee working  hours"
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    allowDecimals: false,
+                                    title: {
+                                        text: "date"
+                                    }
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: "Working hours"
+                                    }
+                                },
+                                series: [{
+                                        name: 'Working hours per day:',
+                                        data: processed_json
+                                    }]
+                            });
+                        });
+                    } else {
+                        return false;
+                    }
+                });
             });
-        });
-    </script>
-	
-</head>
-<body>
-   <div style=" width: 700px; font-size: 1.7em; font-weight: bold; margin: 2em auto; padding: 1em; border: 1px solid blue; border-radius: 0.5em">
-	Si2chip Employee Real Time Dashboard
-	</div>
-    <div id="container1" style="margin-right:15%;height: 20%; width: 40%"></div>
-	<div id="container2" style="margin-left: 3%;margin-top: 6%;height: 20%; width: 40%;color:#2445a2;"></div>
-    
-</body>
+        </script>
+    </head>
+    <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+    <body class="hold-transition skin-blue layout-top-nav">
+        <div class="wrapper">
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <a href="index.html" class="navbar-brand"><b>Si2Chip</b></a>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                                <li><a href="#">Link</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">One more separated link</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- Full Width Column -->
+            <div class="content-wrapper">
+                <div class="container">
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        <ol class="breadcrumb" style="float:none;position:static">
+                            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        </ol>
+                    </section>
+
+                    <!-- Main content -->
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- AREA CHART -->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">Area Chart</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row" style="border-bottom:1px solid #f4f4f4;padding-bottom:10px;">
+                                            <form role="form" name="search1" id="search1">
+                                                <div class="form-group">
+                                                    <label for="userid" class="col-sm-1 control-label">UserID:</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control" name="uid" id="userid" placeholder="Enter User Id">
+                                                        <label for="userid" class="error"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="date" class="col-sm-1 control-label">Date:</label>
+                                                    <div class="col-sm-4">
+                                                        <div id="datepicker" class="input-group date" data-date-format="yyyy/mm/dd">
+                                                            <input class="form-control" type="text" readonly name="sdate" id="date" placeholder="Select Date"/>
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" style="font-size: 18px;color: #BB3D3D"></i></span>
+                                                        </div>
+                                                        <label for="date" class="error"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <button type="button" class="btn btn-primary" id="b1">Submit</button>
+                                                </div>
+                                            </form>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="chart">
+                                            <div id="areaChart"></div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+                                <!-- BAR CHART -->
+                                <div class="box box-danger">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">Bar Chart</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row" style="border-bottom:1px solid #f4f4f4;padding-bottom:10px;">
+                                            <form role="form" name="search2" id="search2">
+                                                <div class="form-group">
+                                                    <label for="userid2" class="col-sm-1 control-label">UserID:</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control" name="uid2" id="userid2" placeholder="Enter User Id">
+                                                        <label for="userid2" class="error"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="date2" class="col-sm-1 control-label">Date:</label>
+                                                    <div class="col-sm-4">
+                                                        <div id="datepicker2" class="input-group date" data-date-format="yyyy/mm/dd">
+                                                            <input class="form-control" type="text" readonly name="sdate2" id="date2" placeholder="Select Date"/>
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" style="font-size: 18px;color: #BB3D3D"></i></span>
+                                                        </div>
+                                                        <label for="date2" class="error"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <button type="button" class="btn btn-primary" id="b2">Submit</button>
+                                                </div>
+                                            </form>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="chart">
+                                        <div id="barChart"></div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+
+                            </div><!-- /.col (LEFT) -->
+                            <div class="col-md-6">
+                                <!-- LINE CHART -->
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">Line Chart</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart">
+                                            <div class="row" style="border-bottom:1px solid #f4f4f4;padding-bottom:10px;">
+                                                <form role="form" name="search3" id="search3">
+                                                    <div class="form-group">
+                                                        <label for="userid3" class="col-sm-1 control-label">UserID:</label>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" name="uid3" id="userid3" placeholder="Enter User Id">
+                                                            <label for="userid3" class="error"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="date3" class="col-sm-1 control-label">Date:</label>
+                                                        <div class="col-sm-4">
+                                                            <div id="datepicker3" class="input-group date" data-date-format="yyyy/mm/dd">
+                                                                <input class="form-control" type="text" readonly name="sdate3" id="date3" placeholder="Select Date"/>
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" style="font-size: 18px;color: #BB3D3D"></i></span>
+                                                            </div>
+                                                            <label for="date3" class="error"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <button type="button" class="btn btn-primary" id="b3">Submit</button>
+                                                    </div>
+                                                </form>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="chart">
+                                            <div id="lineChart"></div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+
+                                <!-- COLUMN CHART -->
+                                <div class="box box-success">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">Column Chart</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart">
+                                            <div class="row" style="border-bottom:1px solid #f4f4f4;padding-bottom:10px;">
+                                                <form role="form" name="search4" id="search4">
+                                                    <div class="form-group">
+                                                        <label for="userid4" class="col-sm-1 control-label">UserID:</label>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" name="uid4" id="userid4" placeholder="Enter User Id">
+                                                            <label for="userid4" class="error"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="date4" class="col-sm-1 control-label">Date:</label>
+                                                        <div class="col-sm-4">
+                                                            <div id="datepicker4" class="input-group date" data-date-format="yyyy/mm/dd">
+                                                                <input class="form-control" type="text" readonly name="sdate4" id="date4" placeholder="Select Date"/>
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" style="font-size: 18px;color: #BB3D3D"></i></span>
+                                                            </div>
+                                                            <label for="date4" class="error"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <button type="button" class="btn btn-primary" id="b4">Submit</button>
+                                                    </div>
+                                                </form>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="chart">
+                                            <div id="columnChart"></div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+
+                            </div><!-- /.col (RIGHT) -->
+                        </div><!-- /.row -->
+                    </section><!-- /.content -->
+                </div><!-- /.container -->
+            </div><!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div class="container">
+                    <strong>Copyright &copy; 2016-2017 <a href="http://si2chip.com">Si2Chip</a>.</strong> All rights reserved.
+                </div><!-- /.container -->
+            </footer>
+        </div><!-- ./wrapper -->
+    </body>
 </html>
