@@ -1519,11 +1519,11 @@ a:focus {
 .box {
   position: relative;
   border-radius: 3px;
-  background: #ffffff;
+  background: #f4f4f4;
   border-top: 3px solid #d2d6de;
   margin-bottom: 20px;
   width: 100%;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.48);
 }
 .box.box-primary {
   border-top-color: #3c8dbc;
@@ -1714,7 +1714,7 @@ a:focus {
   position: relative;
 }
 .box-header.with-border {
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid #CCC;
 }
 .collapsed-box .box-header.with-border {
   border-bottom: none;

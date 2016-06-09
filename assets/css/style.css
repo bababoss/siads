@@ -1,0 +1,130 @@
+.slide-down-enter,
+.slide-down-leave
+{
+    -webkit-transition:200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition:200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition:200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition:200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition:200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    display:block;
+    overflow:hidden;
+    position:relative;
+}
+
+html input[disabled] {
+    background-color: #F4F4F4;
+}
+html input[disabled]:hover{
+    border: none;
+} 
+
+.items-table .row {
+  line-height:3em;
+}
+.items-table .row:last-child {
+  border-bottom:none;
+  line-height:3em;
+}
+
+.slide-down-enter.slide-down-enter-active,
+.slide-down-leave {
+    opacity:1;
+    height:46px;
+}
+
+.slide-down-leave.slide-down-leave-active,
+.slide-down-enter {
+    opacity:0;
+    height:0px;
+}
+
+
+.invoice-number-container * {
+  font-weight:bold;
+}
+
+.items-table .row:nth-child(even) {
+  background:#f9f9f9;
+}
+.items-table input {
+  line-height:1.5em;
+}
+.actions {
+  padding-top:1em;
+  text-align: center;
+}
+input:focus {
+  outline: 0;
+}
+
+.heading {
+  background-color:#357EBD;
+  color:#FFF;
+  margin-bottom:1em;
+  text-align:center;
+  line-height:2.5em;
+}
+.branding {
+  padding-bottom:1em;
+  border-bottom:1px solid #ddd;
+}
+.infos {
+  padding-bottom:1em;
+  border-bottom:1px solid #ddd;
+}
+.infos .right {
+  text-align:right;
+}
+.infos .right input {
+  text-align:right;
+}
+.header.row {
+  font-weight:bold;
+}
+
+input, textarea{
+  border: 1px solid #F4F4F4;
+}
+
+.container input:hover, .container textarea:hover,
+.table-striped > tbody > tr:nth-child(2n+1) > td input:hover,
+.container input:focus, .container textarea:focus,
+.table-striped > tbody > tr:nth-child(2n+1) > td input:focus{
+  border: 1px solid #CCC;
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td input{
+    background-color: #F9F9F9;
+    border: 1px solid #F9F9F9;
+}
+
+
+
+@media print {
+    .noPrint {
+        display:none;
+    }
+}
+
+.infos input{
+  width: 100%;
+      background-color: #F4F4F4;
+}
+
+.align-right input{
+  text-align:right;
+  width: 100%;
+}
+
+#imgInp{
+  display: none;
+}
+
+.right{
+    text-align:right;
+    float: right;
+}
+@media print { 
+ /* All your print styles go here */
+ #header, #footer, #nav { display: none !important; } 
+}
