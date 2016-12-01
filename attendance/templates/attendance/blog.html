@@ -1,0 +1,226 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Sush Earth Rover</title>
+
+    <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/static/css/blog.css">
+
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="ie-emulation-modes-warning.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<script language="JavaScript">
+/*
+//////////F12 disable code////////////////////////
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+/////////////////////end///////////////////////
+
+
+//Disable right click script
+//visit http://www.rainbow.arch.scriptmania.com/scripts/
+var message="Sorry, right-click has been disabled";
+///////////////////////////////////
+function clickIE() {if (document.all) {(message);return false;}}
+function clickNS(e) {if
+(document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(message);return false;}}}
+if (document.layers)
+{document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+document.oncontextmenu=new Function("return false")
+//
+function disableCtrlKeyCombination(e)
+{
+//list all CTRL + key combinations you want to disable
+var forbiddenKeys = new Array('a', 'n', 'c', 'x', 'v', 'j' , 'w');
+var key;
+var isCtrl;
+if(window.event)
+{
+key = window.event.keyCode;     //IE
+if(window.event.ctrlKey)
+isCtrl = true;
+else
+isCtrl = false;
+}
+else
+{
+key = e.which;     //firefox
+if(e.ctrlKey)
+isCtrl = true;
+else
+isCtrl = false;
+}
+//if ctrl is pressed check if other key is in forbidenKeys array
+if(isCtrl)
+{
+for(i=0; i<forbiddenKeys.length; i++)
+{
+//case-insensitive comparation
+if(forbiddenKeys[i].toLowerCase() == String.fromCharCode(key).toLowerCase())
+{
+alert('Key combination CTRL + '+String.fromCharCode(key) +' has been disabled.');
+return false;
+}
+}
+}
+return true;
+}
+*/
+</script>
+
+  </head>
+
+
+  <body onkeypress="return disableCtrlKeyCombination(event);" onkeydown="return disableCtrlKeyCombination(event);">
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+
+          <a class="blog-nav-item active" href="sushhome.jsp">SushVision</a>
+          <a class="blog-nav-item" href="#">Innovation</a>
+
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title">SushVision Innovation Lab <a href="http://www.sushvision.com/"><img src="/static/images/logo.jpg" height="20%" width="20%"/></a> </h1>
+        <p class="lead blog-description">The new era of vision world</p>
+
+
+      </div>
+
+      <div class="row">
+
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+              {% for post in posts %}
+                        <h2 class="blog-post-title">{{ post.title }}</h2>
+                        <p class="blog-post-meta">{{ post.publish_date }} <a href="#">Bharat</a></p>
+
+                        <p>{{ post.body }} </p>
+                        <hr>
+            			<blockquote>
+            			<h3>{{ post.topic }}</h3>
+            			<ul>
+            				<li>{{ post.topic_content }}</li>
+
+
+            			</ul>
+
+
+            			<pre><code><p>{{ post.code }}</p></code></pre>
+                     </blockquote>
+
+             {% endfor %}
+          </div><!-- /.blog-post -->
+
+
+          <nav>
+            <ul class="pager">
+              <li><a href="vision1.html">Previous</a></li>
+              <li><a href="SushEarthRover1.html">Next</a></li>
+            </ul>
+          </nav>
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>SushVision Innovation Lab <em>is an organization of entrepreneurs. It is a vision to innovation.</em>  provide healthy solution of vision based complex problem. It provide open vision lab for innovation and contibute its support to develop skilled entrepreneurs.  .</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+
+            {% for post in posts %}
+                <ol class="list-unstyled">
+                  <li><a href="vision1.html">{{ post.title }}. Publish_Date: {{ post.publish_date.date }}</a></li>
+                </ol>
+            {% endfor %}
+
+          </div>
+          <div class="sidebar-module">
+            <h4>Elsewhere</h4>
+			<nav class="blog-nav">
+			<a href="https://github.com/bharatsush"><img src="/static/images/github.jpg" width="12%" height="12%"/></a>
+			<a href="https://www.linkedin.com/company/sushvision"><img src="/static/images/linkedin.png" width="12%" height="12%"/>
+			<a href="https://www.facebook.com/sushvisioninnovation"><img src="/static/images/facebook.png" width="12%" height="12%"/>
+			<a href="https://www.youtube.com/playlist?list=PLc1UbZYKXp0Uy_dEZyG0Sfql_1LeUukNH"> <img src="/static/images/youtube.png" width="12%" height="12%"/>
+			</nav>
+            <ol class="list-unstyled">
+			  <li><a href="https://github.com/bharatsush">GitHub</a></li>
+			  <li><a href="https://www.facebook.com/groups/1576790065908609/">Facebook Group</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>Website built for <a href="http://sushvision.com">Learn SushVision Technology</a> by <a href="https://www.linkedin.com/company/sushvision">Bharat</a>.</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

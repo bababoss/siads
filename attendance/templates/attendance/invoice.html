@@ -1,0 +1,244 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <title>Internet Of Things -Si2Chip</title>
+        <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link href="/static/css/font-awesome.min.css" media="screen" rel="stylesheet">
+        <link data-turbolinks-track="true" href="/static/css/application.css" media="screen" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/AdminLTE.css">
+        <script src='/static/js/angular.min.js'></script>
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/validate.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+        <script type="text/javascript" src="/static/js/main.js"></script>
+        <script src="/static/js/app.min.js"></script>
+    </head>
+    <body>
+        <div id="wrap">
+            <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="http://bharatsush.pythonanywhere.com/">
+                            <img alt="Si2Chip logo" height="45" id="nav-si2chip-logo" src="/static/images/si2chipcompanylogo.png" style="padding: 0 8px; margin-top: 7px;margin-bottom:7px;" width="200">
+                        </a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://bharatsush.pythonanywhere.com/dashboard/" id="nav-charts">Charts</a></li>
+                            <li><a href="invoice.html" id="nav-invoice">Invoice</a></li>
+                            <li><a href="#" id="nav-channels-before">Channels</a></li>
+                            <li><a href="#" id="nav-apps">Apps</a></li>
+                            <li><a href="#" id="nav-blog">Blog</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="nav-support">Support <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" target="_blank" id="nav-support-doc">Documentation</a></li>
+                                    <li><a href="#" target="_blank" id="nav-support-tutorials">Tutorials</a></li>
+                                    <li><a href="#" target="_blank" id="nav-support-examples"><span class="translation_missing" title="translation missing: en.Examples">Examples</span></a></li>
+                                    <li><a href="#" target="_blank" id="nav-support-forum">Forum</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="login.html" id="nav-sign-in">Sign In</a></li>
+                            <li><a href="signup.html" id="nav-sign-up">Sign Up</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <!-- Main content -->
+                    <section class="content">
+                        <div class="row">
+                            <div class="box box-primary col-md-8">
+                                <div class="box-header with-border noPrint">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <h3 class="box-title">Invoice</h3>
+                                </div>
+                                <div class="box-body" id="invoice" ng-app="invoicing" ng-controller="InvoiceCtrl">
+                                    <div class="row">
+                                        <div class="col-xs-12 heading">
+                                            INVOICE
+                                        </div>
+                                    </div>
+                                    <div class="row branding">
+                                        <div class="col-xs-6 logo-container">
+                                            <input type="file" id="imgInp" />
+                                            <img ng-hide="logoRemoved" id="company_logo" ng-src="{{ logo}}" alt="your image" width="200" />
+                                            <div>
+                                                <div class="noPrint" ng-hide="printMode">
+                                                    <a ng-click="editLogo()" href >Edit Logo</a>
+                                                    <a ng-click="toggleLogo()" id="remove_logo" href > logo</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 right">
+                                            <div class="invoice-number-container">
+                                                <label for="invoice-number">Invoice #</label><input type="text" ng-disabled="printMode" id="invoice-number" ng-model="invoice.invoice_number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row infos">
+                                        <div class="col-xs-6">
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.company_info.name"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.company_info.web_link"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.company_info.address1"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.company_info.address2"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.company_info.postal"/></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="row infos">
+                                        <div class="col-xs-6">
+                                            <label >Billing Address</label>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.name"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.web_link"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.address1"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.address2"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.postal"/></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <label >Shipping Address</label>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.name"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.web_link"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.address1"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.address2"/></div>
+                                            <div class="input-container"><input type="text" ng-disabled="printMode" ng-model="invoice.customer_info.postal"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="row items-table">
+                                        <div class="row header noPrint actions">
+                                            <div class="col-xs-6">&nbsp;</div>
+                                            <div class="col-xs-6 right">
+                                                <a href="#" class="btn btn-primary" ng-hide="printMode" ng-click="printMode = true;">Turn On Print Mode</a>
+                                                <a href="#" class="btn btn-primary" ng-show="printMode" ng-click="printMode = false;">Turn Off Print Mode</a>
+                                                <a class="btn btn-primary" ng-hide="printMode" ng-click="addItem()" >Add Item[+]</a>
+                                            </div>
+                                        </div>
+                                        <table width="100%" class="table-hover table-striped">
+                                            <tr style="background-color: #ECF0F5;height: 50px;">
+                                                <th width="2%"><div class="col-sm-10">Quantity</div></th>
+                                                <th width="10%"><div class="col-sm-10" style="padding-left: 0px;">Description</div></th>
+                                                <th width="6%"><div class="col-sm-10" style="padding-left: 0px;">Gross Amount {{currencySymbol}}</div></th>
+                                                <th width="2%"><div class="col-sm-10" style="padding-left: 0px;">Discount</div></th>
+                                                <th width="9%"><div class="col-sm-10" style="padding-left: 0px;">Net Amount(tax inclusive)</div></th>
+                                                <th width="5%"><div class="col-sm-10" style="padding-left: 0px;">Tax Type</div></th>
+                                                <th width="5%"><div class="col-sm-10" style="padding-left: 0px;">Tax Rate</div></th>
+                                                <th width="9%"><div class="col-sm-10" style="padding-left: 0px;">Tax Amount(included in net)</div></th>
+                                                <th width="2%"><div class="col-sm-10" style="padding-left: 0px;">&nbsp;</div></th>
+                                            </tr>
+                                            <tr style="height:50px;" class="invoice-item" ng-repeat="item in invoice.items" ng-animate="'slide-down'">
+                                                <td width="2%"><div class="col-sm-10 input-container">
+                                                        <input ng-model="item.qty"  ng-disabled="printMode"  value="0" size="4" ng-required ng-validate="number" placeholder="Quantity" />
+                                                    </div></td>
+                                                <td width="10%"><div class="col-sm-10 input-container" style="padding-left: 0px;">
+                                                        <input ng-model="item.description" ng-disabled="printMode" placeholder="Description" />
+                                                    </div></td>
+                                                <td width="6%"><div class="col-sm-10 input-container" style="padding-left: 0px;">
+                                                        <input ng-model="item.cost" ng-disabled="printMode" value="0" ng-required ng-validate="number" size="6" placeholder="Gross Amount" />
+                                                    </div></td>
+                                                <td width="2%"><div class="col-sm-10 input-container" style="padding-left: 0px;">
+                                                        <input ng-model="item.disc" ng-disabled="printMode" value="0" ng-required ng-validate="number" size="6" placeholder="Discount" />
+                                                    </div></td>
+                                                <td width="9%"><div class="col-sm-10 input-container" style="padding-left: 0px;">
+                                                        {{item.cost * item.qty - item.disc| currency: currencySymbol}}
+                                                    </div></td>
+                                                <td width="5%"><div class="col-sm-10 input-container" style="padding-left: 0px;">
+                                                        <select ng-model='item.taxType' ng-disabled="printMode" ng-options='taxtype.val as taxtype.name for taxtype in availableTaxes'></select>
+                                                    </div></td>
+                                                <td width="5%"><div class="col-sm-10  input-container" style="padding-left: 0px;">
+                                                        {{item.taxType| currency: perSymbol}}
+                                                    </div></td>
+                                                <td width="9%"><div class="col-sm-10 input-container" style="padding-left: 0px;">
+                                                        {{((item.cost * item.qty - item.disc) * item.taxType) / 100 | currency: currencySymbol}}
+                                                    </div></td>
+                                                <td width="2%"><div class="col-sm-6 remove-item-container" style="padding-left: 0px;">
+                                                        <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger">[X]</a>
+                                                    </div></td>
+                                            </tr>
+                                        </table>
+                                        <div class="col-xs-6">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-xs-6" style="padding: 0px;">
+                                            <table cellspacing="0" cellpadding="2" width="100%" class="table table-striped">
+                                                <tr style="background-color: #ECF0F5;height: 50px;">
+                                                    <th width="5%"><div class="col-sm-12">Total Gross Amount{{currencySymbol}}</div></th>
+                                                    <th width="5%"><div class="col-sm-12" style="padding-left: 0px;">Total Discount</div></th>
+                                                    <th width="5%"><div class="col-sm-12" style="padding-left: 0px;">Final Net Amount(tax inclusive)</div></th>
+                                                </tr>
+                                                <tr style="background-color: #F5F5F5;height:50px;" class="invoice-item">
+                                                    <td width="5%"><div class="col-sm-12 input-container">
+                                                            {{invoiceGrossAmountTotal() | currency: currencySymbol}}
+                                                        </div></td>
+                                                    <td width="5%"><div class="col-sm-12 input-container">
+                                                            {{invoiceDiscountTotal() | currency: currencySymbol}}
+                                                        </div></td>
+                                                    <td width="5%"><div class="col-sm-12 input-container">
+                                                            {{invoiceFinalNetTotal() | currency: currencySymbol}}
+                                                        </div></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row noPrint actions">
+                                        <a href="#" class="btn btn-primary" ng-show="printMode" ng-click="print()">Print</a>
+                                        <a href="#" class="btn btn-primary" ng-hide="printMode" ng-click="clearLocalStorage()">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.row -->
+                    </section><!-- /.content -->
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="container">
+                <p>
+                    <span class="hidden-xs pull-left">
+                        <a href="#" title="Open Source Internet of Things" target="_blank">ThingSpeak.com</a> |
+                        <a href="#" title="The ThingSpeak Blog covering the web of things" target="_blank">Blog</a> |
+                        <a href="#" title="Open discussion forum for ThingSpeak" target="_blank">Forum</a> |
+                        <a href="#" target="_blank">Documentation</a> |
+                        <a href="#" target="_blank">Tutorials</a> |
+                        <a href="#" title="Internet of Things RSS Feed" target="_blank">RSS Feed</a> |
+                        <a href="#" title="ThingSpeak Terms of Use" target="_blank">Terms</a> |
+                        <a href="#" title="ThingSpeak Privacy Policy" target="_blank">Privacy Policy</a>
+                    </span>
+                    <span class="pull-right">
+                        © 2016 <a href="https://www.si2chip.com/" target="_blank">Si2Chip.</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52048065-1', 'si2chip.com');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

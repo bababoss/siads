@@ -29,3 +29,52 @@ class Analysis_table(models.Model):
     class Meta:
         ordering=('attendance_date',)
 
+#this class for GPS application
+
+class Geodata(models.Model):
+    user_id = models.IntegerField( blank=True, null=False)
+    device_id = models.IntegerField( blank=True, null=False)
+    latitude = models.FloatField( blank=True,null=False)
+    longitude = models.FloatField( blank=True,null=False)
+    speed = models.FloatField(blank=True,null=False)
+    time_stamp = models.DateTimeField(auto_now_add = True)
+
+#class Geodata_analysis(models.Models):
+
+#class for SwijiRestaurant app
+
+class SavjiRestaurant(models.Model):
+    username = models.CharField( max_length=200, default='0000000', editable=False,blank=True, null=False)
+    contact = models.IntegerField( blank=True, null=False)
+    item1 = models.CharField( max_length=200, default='0000000', editable=False,blank=True, null=False)
+    item2 = models.CharField( max_length=200, default='0000000', editable=False,blank=True, null=False)
+    cost = models.FloatField(blank=True,null=False)
+    time_stamp = models.DateTimeField(auto_now_add = True)
+
+#class for blog app
+class Blog(models.Model):
+
+    title = models.CharField(max_length=250)
+    body = models.TextField()
+    publish_date = models.DateTimeField('published date')
+    topic = models.CharField(max_length=250)
+    topic_content = models.TextField()
+    code = models.TextField()
+    gPlus = models.IntegerField()
+
+    class Meta:
+
+        ordering=('publish_date',)
+
+
+    def publish_in(self):
+        return str(self.publish_date)
+    publish_in.short_description = 'publish_date'
+
+    def __unicode__(self):
+        return str(self.title)
+
+
+
+
+

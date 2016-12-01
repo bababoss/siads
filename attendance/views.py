@@ -10,16 +10,208 @@ from django.shortcuts import render
 #---------Usins class based views--------------------
 from attendance.models import Analysis_table
 from attendance.models import Attendance_table
+from attendance.models import Geodata
+from attendance.models import SavjiRestaurant
+from attendance.models import Blog
+
+
 from attendance.serializers import Analysis_tableSerializer
 from attendance.serializers import Attendance_tableSerializer
+from attendance.serializers import GeodataSerializer
+from attendance.serializers import SavjiRestaurantSerializer
+from attendance.serializers import BlogSerializer
+
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 from rest_framework import status
 
 #import other module
-from datetime import datetime
+from datetime import datetime,timedelta
+from django.utils import timezone
 
+
+
+#  class based views for blog model--------------------------------------------
+
+
+class BlogList(APIView):
+    """
+    List all Blog, or create a new Blog.
+    """
+    def get(self, request, format=None):
+        blog = Blog.objects.all()
+        serializer = BlogSerializer(blog, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = BlogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class BlogDetail(APIView):
+    """
+    Retrieve, update or delete a Blog instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Blog.objects.get(pk=pk)
+        except Blog.DoesNotExist:
+            raise Http404
+
+    def get(self, request,pk, format=None):
+        blog = self.get_object(pk)
+        serializer = BlogSerializer(blog)
+        return Response(serializer.data)
+
+    def put(self, request,pk, format=None):
+        blog = self.get_object(pk)
+        serializer = BlogSerializer(blog, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request,pk, format=None):
+        blog = self.get_object(pk)
+        blog.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+#------------------------------------end.........................................................
+
+
+
+
+#  class based views for savjirestaurante model--------------------------------------------
+
+
+class SavjiRestaurantList(APIView):
+    """
+    List all savjirestaurant, or create a new savjirestaurant.
+    """
+    def get(self, request, format=None):
+        savjirestaurant = SavjiRestaurant.objects.filter()
+        serializer = SavjiRestaurantSerializer(savjirestaurant, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = SavjiRestaurantSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class SavjiRestaurantDetail(APIView):
+    """
+    Retrieve, update or delete a savjirestaurant instance.
+    """
+    def get_object(self, pk):
+        try:
+            return SavjiRestaurant.objects.get(pk=pk)
+        except SavjiRestaurant.DoesNotExist:
+            raise Http404
+
+    def get(self, request, user_id,year, format=None):
+        savjirestaurant = self.get_object(user_id)
+        serializer = SavjiRestaurantSerializer(savjirestaurant)
+        return Response(serializer.data)
+
+    def put(self, request, format=None):
+        savjirestaurant = self.get_object()
+        serializer = SavjiRestaurantSerializer(savjirestaurant, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, format=None):
+        savjirestaurant = self.get_object()
+        savjirestaurant.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+#------------------------------------end.........................................................
+
+
+
+
+
+
+
+
+
+#  class based views for Geodata model--------------------------------------------
+
+
+class GeodataList(APIView):
+    """
+    List all Geodata, or create a new Geodata.
+    """
+    def get(self, request, format=None):
+        geodata = Geodata.objects.filter()
+        serializer = GeodataSerializer(geodata, many=True)
+        return Response(serializer.data)
+   # parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        serializer = GeodataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GeodataList2(APIView):
+    """
+    List all Geodata, or create a new Geodata.
+    """
+    def get(self, request,user_id,year,month,day, format=None):
+        geodata = Geodata.objects.filter(user_id__contains=user_id,time_stamp__year=year,time_stamp__month=month,time_stamp__day=day)
+        serializer = GeodataSerializer(geodata, many=True)
+        return Response(serializer.data)
+   # parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        serializer = GeodataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GeodataDetail(APIView):
+    """
+    Retrieve, update or delete a Geodata instance.
+    """
+    def get_object(self,pk):
+        try:
+            return Geodata.objects.filter(pk=pk)
+        except Geodata.DoesNotExist:
+            raise Http404
+
+    def get(self, request,pk, format=None):
+        geodata = self.get_object(pk)
+        serializer = GeodataSerializer(geodata)
+        return Response(serializer.data)
+
+    def put(self, request,pk, format=None):
+        geodata = self.get_object(pk)
+        serializer = GeodataSerializer(geodata, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        geodata = self.get_object(pk)
+        geodata.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+#------------------------------------end.........................................................
 
 
 
@@ -51,9 +243,9 @@ class Attendance_tableDetail(APIView):
     """
     def get_object(self,pk):
         try:
-            return Attendace_table.objects.get(pk=pk)
+            return Attendance_table.objects.get(pk=pk)
         except Attendance_table.DoseNotExit:
-            raise Http4014
+            raise Http404
     def get(self, request, pk, format=None):
         attendance_table = self.get_object(pk)
         serializer=Attendance_tableSerializer(attendance_table)
@@ -184,4 +376,41 @@ def home(request):
     #data=analysis_table_object.get(request,user_id,year,month, format=None)
 
     return render(request,'attendance/home.html',{})
+
+
+#this function for chart.html to dashboard
+def chart(request):
+    return render(request, 'attendance/chart.html', {})
+
+
+#this function for tracker.html to dashboard
+def tracker(request):
+    return render(request, 'attendance/tracker.html', {})
+
+    #this function for Si2Tracker.html to dashboard
+def Si2Tracker(request):
+    return render(request, 'attendance/Si2Tracker.html', {})
+
+    #this function for .html to dashboard
+def si2tracker2(request):
+    return render(request, 'attendance/si2tracker2.html', {})
+
+
+#this function for SavjiRastaurant
+def savjirestaurant(request):
+    return render(request, 'attendance/savjirestaurant.html', {})
+
 # Create your views here.
+
+def invoice(request):
+    return render(request, 'attendance/invoice.html', {})
+
+def example(request):
+    return render(request, 'attendance/example.html', {})
+
+#this function for SavjiRastaurant
+def blog(request):
+    start_date = datetime.today() - timedelta(days=5)
+    end_date = datetime.today()
+    posts = Blog.objects.filter(publish_date__range=(start_date, end_date)).order_by('publish_date').reverse()
+    return render(request, 'attendance/blog.html', {'posts': posts})

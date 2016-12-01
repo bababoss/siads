@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'bharatsush$tutorialdb',
         'USER': 'bharatsush',
         'PASSWORD': 'india!@1234',
-        'HOST': 'username.mysql.pythonanywhere-services.com',
+        'HOST': 'bharatsush.mysql.pythonanywhere-services.com',
     }
 }
 

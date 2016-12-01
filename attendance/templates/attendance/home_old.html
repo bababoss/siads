@@ -1,5 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
+
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -13,62 +14,23 @@
         <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
         <script src="/static/js/validate.js"></script>
         <script type="text/javascript">
-
-            $(document).ready(function () {
-                // Resive video
-                //scaleVideoContainer();
-                initBannerVideoSize('.video_back');
-
-                $(window).on('resize', function () {
-                    //scaleVideoContainer();
-                    scaleBannerVideoSize('.video_back');
-                });
-
+            var app = angular.module('carousel', []);
+            app.controller('folderCtrl', function ($scope, $http) {
+                $scope.w = window.innerWidth;
+                $scope.h = window.innerHeight;
+                $scope.folders = [
+                    'static/images'
+                ];
+                $scope.images = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                $scope.ext = '.jpg';
+                $scope.currentFolder = $scope.folders[0];
+                $scope.selectFolder = function (folder) {
+                    $scope.currentFolder = folder;
+                };
+                $scope.activeFolder = function (folder) {
+                    return (folder === $scope.currentFolder) ? 'active' : '';
+                };
             });
-            /** Reusable Functions **/
-            /********************************************************************/
-
-            function scaleVideoContainer() {
-
-                var height = $(window).height();
-                var unitHeight = parseInt(height) + 'px';
-                $('#home-top').css('height', unitHeight);
-            }
-
-            function initBannerVideoSize(element) {
-                $(element).each(function () {
-                    $(this).data('height', $(this).height());
-                    $(this).data('width', $(this).width());
-                });
-                scaleBannerVideoSize(element);
-            }
-
-            function scaleBannerVideoSize(element) {
-
-                var windowWidth = $(window).width(),
-                        windowHeight = $(window).height(),
-                        videoWidth,
-                        videoHeight;
-
-                console.log(windowHeight);
-
-                $(element).each(function () {
-                    var videoAspectRatio = $(this).data('height') / $(this).data('width'),
-                            windowAspectRatio = windowHeight / windowWidth;
-
-                    if (videoAspectRatio > windowAspectRatio) {
-                        videoWidth = windowWidth;
-                        videoHeight = videoWidth * videoAspectRatio;
-                        $(this).css({'top': -(videoHeight - windowHeight) / 2 + 'px', 'margin-left': 0});
-                    } else {
-                        videoHeight = windowHeight;
-                        videoWidth = videoHeight / videoAspectRatio;
-                        $(this).css({'margin-top': 0, 'margin-left': -(videoWidth - windowWidth) / 2 + 'px'});
-                    }
-                    $(this).width(videoWidth);
-                    $('#home-top .video_back').addClass('fadeIn animated');
-                });
-            }
         </script>
     </head>
     <body style="padding-top: 50px;">
@@ -109,25 +71,42 @@
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-        <div id="home-top" style="background-color: black;">
-            <video autoplay loop class="video_back">
-                <source src="http://dfcb.github.io/BigVideo.js/vids/dock.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-            </video>
-            <div id="home-top-center">
-                <div id="home-motto">
-                    <h1 class="hero text-center">Billions and Billions</h1>
-                    The open data platform for the Internet of Things
+
+        <div id="home-top" ng-app="carousel" ng-controller="folderCtrl">
+            <!-- Carousel
+                ================================================== -->
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" ng-repeat="img in images" class="{active : (img === 0)}" data-slide-to="{{img}}"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <div id="home-motto">
+                                <h1 class="hero text-center">Billions and Billions</h1>
+                                The open data platform for the Internet of Things
+                            </div>
+                            <br><br>
+                            <div>
+                                <a class="btn btn-primary btn-lg" href="login.html">Get Started</a>
+                                <span class="hidden-xs" style="margin-left: 52px;"></span>
+                                <button type="button" class="btn btn-transparent btn-lg" data-toggle="modal" data-target="#contact_modal">
+                                    Contact Us
+                                </button>
+                            </div></div>
+                    </div>
+                    <div ng-class="{
+                                item: true, active :(img === 0)
+                            }" ng-repeat="img in images" >
+                        <img ng-src="{{currentFolder}}/{{img}}{{ext}}" alt="Slide numder {{img}}" style="height:500px;width:100%;">
+                    </div>
                 </div>
-                <br><br>
-                <div>
-                    <a class="btn btn-primary btn-lg" href="login.html">Get Started</a>
-                    <span class="hidden-xs" style="margin-left: 52px;"></span>
-                    <button type="button" class="btn btn-transparent btn-lg" data-toggle="modal" data-target="#contact_modal">
-                        Contact Us
-                    </button>
-                </div>
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
+            <!-- /.carousel -->
         </div>
+
         <div class="modal fade" id="contact_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -177,11 +156,11 @@
             <br>
             <div class="container">
                 <div class="col-sm-6">
-                    <h2>Si2Chip Features</h2>
+                    <h2>ThingSpeak Features</h2>
                     <div class="col-sm-7 medium-gray">
                         <ul style="padding-left: 0px;">
                             <li class="li-block">Real-time data collection and storage</li>
-                            <li class="li-block"><a href="#" target="_blank">MATLAB®</a> analytics and visualizations</li>
+                            <li class="li-block"><a href="http://www.mathworks.com/products/matlab/" target="_blank">MATLAB®</a> analytics and visualizations</li>
                             <li class="li-block">Alerts</li>
                             <li class="li-block">Scheduling</li>
                         </ul>
@@ -191,7 +170,7 @@
                             <li class="li-block">Device communication</li>
                             <li class="li-block">Open API</li>
                             <li class="li-block">Geolocation data</li>
-                            <li class="li-block">Available on<a href="#" target="_blank"> GitHub®</a></li>
+                            <li class="li-block">Available on<a href="https://github.com/iobridge/ThingSpeak" target="_blank"> GitHub®</a></li>
                         </ul>
                     </div>
                 </div>
@@ -199,18 +178,18 @@
                     <h2>Works With</h2>
                     <div class="col-sm-6 medium-gray">
                         <ul style="padding-left: 0px;">
-                            <li><a href="#" target="_blank">Arduino®</a></li>
-                            <li><a href="#" target="_blank">Particle Photon and Core</a></li>
-                            <li><a href="#" target="_blank">Raspberry Pi™</a></li>
-                            <li><a href="#" target="_blank">Electric Imp</a></li>
+                            <li><a href="http://community.thingspeak.com/2015/10/official-thingspeak-library-for-arduino-and-particle/" target="_blank">Arduino®</a></li>
+                            <li><a href="http://community.thingspeak.com/2015/10/official-thingspeak-library-for-arduino-and-particle/" target="_blank">Particle Photon and Core</a></li>
+                            <li><a href="http://community.thingspeak.com/tag/raspberry-pi/" target="_blank">Raspberry Pi™</a></li>
+                            <li><a href="http://community.thingspeak.com/tutorials/electric-imp/data-storage-and-retrieval-with-thingspeak/" target="_blank">Electric Imp</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-6 medium-gray">
                         <ul style="padding-left: 0px;">
-                            <li><a href="#" target="_blank">Mobile and web apps</a></li>
-                            <li><a href="#" target="_blank">Twitter®</a></li>
-                            <li><a href="#" target="_blank">Twilio®</a></li>
-                            <li><a href="#" target="_blank">MATLAB®</a></li>
+                            <li><a href="http://community.thingspeak.com/forum/mobile-apps/" target="_blank">Mobile and web apps</a></li>
+                            <li><a href="http://community.thingspeak.com/tutorials/arduino/update-twitter-with-thingtweet-and-arduino-ethernet-shield/" target="_blank">Twitter®</a></li>
+                            <li><a href="http://community.thingspeak.com/tutorials/twilio/make-calls-with-twilio-using-the-thinghttp-app/" target="_blank">Twilio®</a></li>
+                            <li><a href="http://www.mathworks.com/hardware-support/thingspeak.html" target="_blank">MATLAB®</a></li>
                         </ul>
                     </div>
                 </div>
@@ -221,29 +200,29 @@
             <div class="col-xs-12 col-md-12 col-lg-12">
                 <h1>Featured Projects</h1>
             </div>
-            <a class="blacklink" target="_blank" href="#">
+            <a class="blacklink" target="_blank" href="http://makerzone.mathworks.com/blog/counting-cars-and-analyzing-traffic-raspberry-pi-thingspeak/">
                 <div class="col-xs-12 col-md-6 col-lg-3 card featured">
                     <div class="panel panel-default panel_topbar panel_image_cover">
                         <div class="panel-heading"></div>
                         <div class="panel-body">
                             <h4>Car Counter</h4>
-                            <p class="small">Using a webcam and a Raspberry Pi device, we built a car counter and aimed it at a busy highway. We deployed a car-counting algorithm to the Raspberry Pi and used Si2Chip and MATLAB to analyze and visualize the traffic patterns.  </p>
+                            <p class="small">Using a webcam and a Raspberry Pi device, we built a car counter and aimed it at a busy highway. We deployed a car-counting algorithm to the Raspberry Pi and used ThingSpeak and MATLAB to analyze and visualize the traffic patterns.  </p>
                         </div>
                     </div>
                 </div>
             </a>
-            <a class="blacklink" target="_blank" href="#">
+            <a class="blacklink" target="_blank" href="http://makerzone.mathworks.com/stories/arduino-stories/weather-station-analysis-revisited/">
                 <div class="col-xs-12 col-md-6 col-lg-3 card featured">
                     <div class="panel panel-default panel_topbar panel_image_cover">
                         <div class="panel-heading"></div>
                         <div class="panel-body">
                             <h4>Weather Station</h4>
-                            <p class="small">We built our own Arduino-based weather station and hooked it to Si2Chip to collect and store weather data. One year later, we share how to deal with bad data and how to analyze and visualize data using Si2Chip and MATLAB.</p>
+                            <p class="small">We built our own Arduino-based weather station and hooked it to ThingSpeak to collect and store weather data. One year later, we share how to deal with bad data and how to analyze and visualize data using ThingSpeak and MATLAB.</p>
                         </div>
                     </div>
                 </div>
             </a>
-            <a class="blacklink" target="_blank" href="#">
+            <a class="blacklink" target="_blank" href="http://makerzone.mathworks.com/producthardware-detail/real-timetide-gauge-to-tweet-tidal-alerts/">
                 <div class="col-xs-12 col-md-6 col-lg-3 card featured">
                     <div class="panel panel-default panel_topbar panel_image_cover">
                         <div class="panel-heading"></div>
@@ -254,7 +233,7 @@
                     </div>
                 </div>
             </a>
-            <a class="blacklink" target="_blank" href="#">
+            <a class="blacklink" target="_blank" href="http://cheerlights.com/">
                 <div class="col-xs-12 col-md-6 col-lg-3 card featured">
                     <div class="panel panel-default panel_topbar panel_image_cover">
                         <div class="panel-heading"></div>
@@ -272,26 +251,26 @@
                 <div class="col-md-7">
                     <div>
                         <h1>
-                            <a class="blacklink" href="#" title="Si2Chip Community, Blog, and Forum">
+                            <a class="blacklink" href="http://community.thingspeak.com/" title="ThingSpeak Community, Blog, and Forum">
                                 Latest News
                             </a><a>
-                            </a><a href="#" title="Si2Chip RSS Feed">
+                            </a><a href="http://feeds.feedburner.com/internetofthings/" title="ThingSpeak RSS Feed">
                                 <i class="fa fa-rss fa-fw" style="color: #ff9305; height: 24px; width: 24px"></i>
                             </a>
                         </h1>
                     </div>
                     <div id="blog-posts">
-                        <h2><a href="#" rel="bookmark" title="Permanent Link to Si2chip – Mobile App to See Si2Chip Charts on Android Devices">Si2chip – Mobile App to See Si2Chip Charts on Android Devices</a></h2><div class="entry">
-                            <p>Cinetica has released to <a href="#" target="_blank">Google Play</a>, a new app to see <a href="#" target="_blank">Si2Chip charts</a> on Android smartphones and tablets. The&nbsp;app is called <a href="#" target="_blank">si2chip</a> and has already reached 5,000 installs on Android devices!</p>
-                            <p><a href="#"></a></p>
-                            <p>Even if you do not have devices and sensors sending data to Si2Chip, you can still use si2chip to see public channels. For example, if you want to see the charts created by sensors in my house, just add Channel ID <strong>9</strong> to si2chip. You see charts of light levels and temperature generated by&nbsp;my house.</p>
-                            <p>Check out <a href="#" target="_blank">si2chip</a> on Google Play!</p>
-                        </div><hr><h2><a href="#" rel="bookmark" title="Permanent Link to Si2Chip is a New Hackster Platform for Sharing Projects">Si2Chip is a New Hackster Platform for Sharing Projects</a></h2><div class="entry">
-                            <p>Hackster.io <a href="#" target="_blank">announced</a> that <a href="https://Si2Chip.com/" target="_blank">Si2Chip</a> is now a <a href="#" target="_blank">platform</a> on their project sharing website!</p>
-                            <p><a href="#" rel="attachment wp-att-1761"></a></p>
-                            <p>The Si2Chip platform joins the likes of Amazon Echo, ESP8266 Wi-Fi, and Particle.io platform. Si2Chip users can easily document, share, and reproduce hardware and Internet of Things projects using <a href="#" target="_blank">Hackster.io</a>. We are already off to a great start with 13 documented projects and tutorials and 31 community members. Check out our platform on <a href="#" target="_blank">Hackster.io</a> to discover great projects and build your own IoT projects.</p>
-                        </div><hr><h2><a href="#" rel="bookmark" title="Permanent Link to Explore your IoT data with Si2Chip and MATLAB">Explore your IoT data with Si2Chip and MATLAB</a></h2><div class="entry">
-                            <p><a href="#" target="_blank">Loren Shure</a>, a blogger at MATLAB Central, has written a new <a href="#" target="_blank">blog post</a> about Eric Wetjen’s&nbsp;<a href="#" target="_blank">Counting Cars and Analyzing Traffic</a> project. Eric uses a Raspberry Pi and webcam to capture traffic data outside of the MathWorks headquarters in Natick, MA. All of the traffic data is stored on a public Si2Chip <a href="#" target="_blank">channel</a>, so you will be able to use it to learn data analysis with the built-in MATLAB Analysis and Visualizations apps in <a href="#" target="_blank">Si2Chip</a>. <a href="#" class="more-link"><em>Continue reading →</em></a></p>
+                        <h2><a href="http://community.thingspeak.com/2016/04/thingview-mobile-app-to-see-thingspeak-charts-on-android-devices/" rel="bookmark" title="Permanent Link to ThingView – Mobile App to See ThingSpeak Charts on Android Devices">ThingView – Mobile App to See ThingSpeak Charts on Android Devices</a></h2><div class="entry">
+                            <p>Cinetica has released to <a href="https://play.google.com/store/apps/details?id=com.cinetica_tech.thingview" target="_blank">Google Play</a>, a new app to see <a href="https://thingspeak.com/channels/9" target="_blank">ThingSpeak charts</a> on Android smartphones and tablets. The&nbsp;app is called <a href="https://play.google.com/store/apps/details?id=com.cinetica_tech.thingview" target="_blank">ThingView</a> and has already reached 5,000 installs on Android devices!</p>
+                            <p><a href="https://play.google.com/store/apps/details?id=com.cinetica_tech.thingview"></a></p>
+                            <p>Even if you do not have devices and sensors sending data to ThingSpeak, you can still use ThingView to see public channels. For example, if you want to see the charts created by sensors in my house, just add Channel ID <strong>9</strong> to ThingView. You see charts of light levels and temperature generated by&nbsp;my house.</p>
+                            <p>Check out <a href="https://play.google.com/store/apps/details?id=com.cinetica_tech.thingview" target="_blank">ThingView</a> on Google Play!</p>
+                        </div><hr><h2><a href="http://community.thingspeak.com/2016/03/thingspeak-is-a-new-hackster-platform-for-sharing-projects/" rel="bookmark" title="Permanent Link to ThingSpeak is a New Hackster Platform for Sharing Projects">ThingSpeak is a New Hackster Platform for Sharing Projects</a></h2><div class="entry">
+                            <p>Hackster.io <a href="https://twitter.com/hacksterio/status/715347959341146112" target="_blank">announced</a> that <a href="https://thingspeak.com/" target="_blank">ThingSpeak</a> is now a <a href="https://www.hackster.io/thingspeak" target="_blank">platform</a> on their project sharing website!</p>
+                            <p><a href="https://www.hackster.io/thingspeak" rel="attachment wp-att-1761"></a></p>
+                            <p>The ThingSpeak platform joins the likes of Amazon Echo, ESP8266 Wi-Fi, and Particle.io platform. ThingSpeak users can easily document, share, and reproduce hardware and Internet of Things projects using <a href="https://www.hackster.io/thingspeak" target="_blank">Hackster.io</a>. We are already off to a great start with 13 documented projects and tutorials and 31 community members. Check out our platform on <a href="https://www.hackster.io/thingspeak" target="_blank">Hackster.io</a> to discover great projects and build your own IoT projects.</p>
+                        </div><hr><h2><a href="http://community.thingspeak.com/2016/03/explore-your-iot-data-with-thingspeak-and-matlab/" rel="bookmark" title="Permanent Link to Explore your IoT data with ThingSpeak and MATLAB">Explore your IoT data with ThingSpeak and MATLAB</a></h2><div class="entry">
+                            <p><a href="http://blogs.mathworks.com/loren/2016/03/23/explore-your-iot-data-with-thingspeak-and-matlab/" target="_blank">Loren Shure</a>, a blogger at MATLAB Central, has written a new <a href="http://blogs.mathworks.com/loren/2016/03/23/explore-your-iot-data-with-thingspeak-and-matlab/" target="_blank">blog post</a> about Eric Wetjen’s&nbsp;<a href="http://makerzone.mathworks.com/blog/counting-cars-and-analyzing-traffic-raspberry-pi-thingspeak/" target="_blank">Counting Cars and Analyzing Traffic</a> project. Eric uses a Raspberry Pi and webcam to capture traffic data outside of the MathWorks headquarters in Natick, MA. All of the traffic data is stored on a public ThingSpeak <a href="https://thingspeak.com/channels/38629" target="_blank">channel</a>, so you will be able to use it to learn data analysis with the built-in MATLAB Analysis and Visualizations apps in <a href="https://thingspeak.com/apps" target="_blank">ThingSpeak</a>. <a href="http://community.thingspeak.com/2016/03/explore-your-iot-data-with-thingspeak-and-matlab/#more-1749" class="more-link"><em>Continue reading →</em></a></p>
                         </div>
                         <br><br>
                     </div>
@@ -301,17 +280,17 @@
                     <br>
                     <div class="row">
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" title="Follow Si2Chip on Twitter" target="_blank">
+                            <a class="blacklink" href="http://www.twitter.com/thingspeak" title="Follow ThingSpeak on Twitter" target="_blank">
                                 <i class="fa fa-twitter large-icon"></i><br><span class="medium-light-gray">TWITTER</span>
                             </a>
                         </div>
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" title="Open Source Internet of Things Project on GitHub" target="_blank">
+                            <a class="blacklink" href="https://github.com/iobridge/ThingSpeak" title="Open Source Internet of Things Project on GitHub" target="_blank">
                                 <i class="fa fa-github-alt large-icon"></i><br><span class="medium-light-gray">GITHUB</span>
                             </a>
                         </div>
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" target="_blank" title="Si2Chip IoT Blog">
+                            <a class="blacklink" href="http://community.thingspeak.com/" target="_blank" title="ThingSpeak IoT Blog">
                                 <i class="fa fa-pencil-square-o large-icon"></i><br><span class="medium-light-gray">BLOG</span>
                             </a>
                         </div>
@@ -319,17 +298,17 @@
                     <div class="row">
                         <br><br>
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" target="_blank" title="Si2Chip API and Apps Documentation">
+                            <a class="blacklink" href="https://www.mathworks.com/help/thingspeak/" target="_blank" title="ThingSpeak API and Apps Documentation">
                                 <i class="fa fa-file-text-o large-icon"></i><br><span class="medium-light-gray">DOC</span>
                             </a>
                         </div>
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" target="_blank" title="Join the Si2Chip Forum">
+                            <a class="blacklink" href="http://community.thingspeak.com/forum/" target="_blank" title="Join the ThingSpeak Forum">
                                 <i class="fa fa-comments-o large-icon"></i><br><span class="medium-light-gray">FORUM</span>
                             </a>
                         </div>
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" title="Contact Si2Chip">
+                            <a class="blacklink" href="mailto:support@thingspeak.com" title="Contact ThingSpeak">
                                 <i class="fa fa-at large-icon"></i><br><span class="medium-light-gray">EMAIL US</span>
                             </a>
                         </div>
@@ -337,7 +316,7 @@
                     <div class="row">
                         <br><br>
                         <div class="col-xs-4 col-sm-4">
-                            <a class="blacklink" href="#" target="_blank" title="Si2Chip Tutorials">
+                            <a class="blacklink" href="https://www.mathworks.com/help/thingspeak/getting-started-with-thingspeak.html" target="_blank" title="ThingSpeak Tutorials">
                                 <i class="fa fa-university large-icon"></i><br><span class="medium-light-gray">TUTORIALS</span>
                             </a>
                         </div>
@@ -350,14 +329,14 @@
                 <p>
 
                     <span class="hidden-xs pull-left">
-                        <a href="#" title="Open Source Internet of Things" target="_blank">Si2Chip.com</a> |
-                        <a href="#" title="The Si2Chip Blog covering the web of things" target="_blank">Blog</a> |
-                        <a href="#" title="Open discussion forum for Si2Chip" target="_blank">Forum</a> |
+                        <a href="#" title="Open Source Internet of Things" target="_blank">ThingSpeak.com</a> |
+                        <a href="#" title="The ThingSpeak Blog covering the web of things" target="_blank">Blog</a> |
+                        <a href="#" title="Open discussion forum for ThingSpeak" target="_blank">Forum</a> |
                         <a href="#" target="_blank">Documentation</a> |
                         <a href="#" target="_blank">Tutorials</a> |
                         <a href="#" title="Internet of Things RSS Feed" target="_blank">RSS Feed</a> |
-                        <a href="#" title="Si2Chip Terms of Use" target="_blank">Terms</a> |
-                        <a href="#" title="Si2Chip Privacy Policy" target="_blank">Privacy Policy</a>
+                        <a href="#" title="ThingSpeak Terms of Use" target="_blank">Terms</a> |
+                        <a href="#" title="ThingSpeak Privacy Policy" target="_blank">Privacy Policy</a>
                     </span>
                     <span class="pull-right">
                         © 2016 <a href="https://www.si2chip.com/" target="_blank">Si2Chip.</a>
@@ -416,4 +395,3 @@
         </script>
     </body>
 </html>
-

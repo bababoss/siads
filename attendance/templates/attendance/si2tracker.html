@@ -1,0 +1,360 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <title>Internet Of Things -Si2Chip</title>
+        <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link href="/static/css/font-awesome.min.css" media="screen" rel="stylesheet">
+        <link data-turbolinks-track="true" href="/static/css/application.css" media="screen" rel="stylesheet">
+        <script src='/static/js/angular.min.js'></script>
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/validate.js"></script>
+        <link rel="stylesheet" href="/static/css/AdminLTE.css">
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+
+
+
+
+
+            <style>
+              html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+              }
+              #map {
+                height: 100%;
+              }
+            </style>
+
+
+
+
+        <style>
+            #datepicker > span:hover {
+                cursor: pointer;
+            }
+            #datepicker2 > span:hover {
+                cursor: pointer;
+            }
+            #datepicker3 > span:hover {
+                cursor: pointer;
+            }
+            #datepicker4 > span:hover {
+                cursor: pointer;
+            }
+        </style>
+        <script type="text/javascript">
+
+            function frm_valid() {
+                // validate  form on keyup and submit
+                f1_val = $("#search1").validate({
+                    rules: {
+                        'uid': {
+                            required: true
+                        },
+                        'sdate': {
+                            required: true
+                        }
+                    }
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            function frm_valid2() {
+                // validate  form on keyup and submit
+                f1_val = $("#search2").validate({
+                    rules: {
+                        'uid2': {
+                            required: true
+                        },
+                        'sdate2': {
+                            required: true
+                        }
+                    }
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            function frm_valid3() {
+                // validate  form on keyup and submit
+                f1_val = $("#search3").validate({
+                    rules: {
+                        'uid3': {
+                            required: true
+                        },
+                        'sdate3': {
+                            required: true
+                        }
+                    }
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            function frm_valid4() {
+                // validate  form on keyup and submit
+                f1_val = $("#search4").validate({
+                    rules: {
+                        'uid4': {
+                            required: true
+                        },
+                        'sdate4': {
+                            required: true
+                        }
+                    }
+                });
+                var x = f1_val.form();
+                return x;
+            }
+            ;
+            $(document).ready(function () {
+                $("#datepicker").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+                $("#datepicker2").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+                $("#datepicker3").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+                $("#datepicker4").datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                });
+                $("#b4").click(function () {
+                    var z = frm_valid4();
+                    var lati;
+                    var longi;
+                    if (z == true) {
+                        var date = document.getElementById("date4").value;
+                        //var date = date.slice(0, -2);
+
+                        //alert(date1);
+                        var uid = document.getElementById("userid4").value;
+                        var ur = "http://bharatsush.pythonanywhere.com/gpsJSONdata/";
+                        var url = ur + uid + "/" + date + "/" ;
+                        //alert("in get out json url");
+                        //var processed_json = new Array();
+
+                       var myVar = setInterval(jsondata(url), 60000);
+
+
+
+
+                    } else {
+                        return false;
+                    }
+                });
+            });
+
+                         //function for handling json url response
+                          function jsondata(url){
+
+                                    $.getJSON(url, function (data) {
+
+                                        // Populate series
+                                        // alert("in get json url");
+                                        //initMap(myLatLng);
+                                          initMap(data);
+                                    });
+                          }
+
+
+                         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                         var labelIndex = 0;
+                         var marker1, marker2;
+                         var poly, geodesicPoly;
+
+                        function initMap(data) {
+
+                              var myLatLng = {lat: data[0].latitude, lng: data[0].longitude};
+                              //alert("data[i].lat");
+                              var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 15,
+                                center: myLatLng
+                              });
+                              navigation(data);
+                          }
+
+                        function navigation(data){
+
+                            map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+                                document.getElementById('info'));
+
+
+                                for(var i=1; i<data.length;i++){
+                                    marker1 = new google.maps.Marker({
+                                      map: map,
+                                      draggable: true,
+                                      position: {lat: data[i].latitude, lng: data[i].longitude}
+                                    });
+
+                                    marker2 = new google.maps.Marker({
+                                      map: map,
+                                      draggable: true,
+                                      position: {lat: data[i+1].latitude, lng: data[i+1].longitude}
+                                    });
+
+                                    var bounds = new google.maps.LatLngBounds(
+                                        marker1.getPosition(), marker2.getPosition());
+                                    map.fitBounds(bounds);
+
+                                    google.maps.event.addListener(marker1, 'position_changed', update);
+                                    google.maps.event.addListener(marker2, 'position_changed', update);
+
+                                    poly = new google.maps.Polyline({
+                                      strokeColor: '#FF0000',
+                                      strokeOpacity: 1.0,
+                                      strokeWeight: 3,
+                                      map: map,
+                                    });
+
+                                    geodesicPoly = new google.maps.Polyline({
+                                      strokeColor: '#CC0099',
+                                      strokeOpacity: 1.0,
+                                      strokeWeight: 3,
+                                      geodesic: true,
+                                      map: map
+                                    });
+
+                                    update();
+                                }
+
+
+                        }
+
+
+
+                          function update() {
+                            var path = [marker1.getPosition(), marker2.getPosition()];
+                            poly.setPath(path);
+                            geodesicPoly.setPath(path);
+                            var heading = google.maps.geometry.spherical.computeHeading(path[0], path[1]);
+                            document.getElementById('heading').value = heading;
+                            document.getElementById('origin').value = path[0].toString();
+                            document.getElementById('destination').value = path[1].toString();
+                          }
+
+
+
+        </script>
+    </head>
+    <body>
+
+        <div id="wrap">
+
+            <div class="container">
+                <div class="row">
+                    <!-- Main content -->
+                    <section class="content">
+                        <div class="row">
+
+
+
+                                <!-- COLUMN CHART -->
+                                <div class="box box-success">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-map-chart-o"></i>
+                                        <h3 class="box-title">Si2chip Tracking App</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart">
+                                            <div class="row" style="border-bottom:1px solid #f4f4f4;padding-bottom:10px;">
+                                                <form role="form" name="search4" id="search4">
+                                                    <div class="form-group">
+                                                        <label for="userid4" class="col-sm-1 control-label" style="width: 80px">UserID:</label>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control" name="uid4" id="userid4" placeholder="Enter User Id">
+                                                            <label for="userid4" class="error"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="date4" class="col-sm-1 control-label">Date:</label>
+                                                        <div class="col-sm-4">
+                                                            <div id="datepicker4" class="input-group date" data-date-format="yyyy/mm/dd">
+                                                                <input class="form-control" type="text" readonly name="sdate4" id="date4" placeholder="Select Date"/>
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" style="font-size: 18px;color: #BB3D3D"></i></span>
+                                                            </div>
+                                                            <label for="date4" class="error"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <button type="button" class="btn btn-primary btn-sm" id="b4">Submit</button>
+                                                    </div>
+                                                </form>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="chart">
+                                                <div id="columnChart"></div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+
+
+
+                        </div><!-- /.row -->
+                    </section><!-- /.content -->
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+           <div id="floating-panel">
+              Origin: <input type="text" readonly id="origin">
+              Destination: <input type="text" readonly id="destination"><br>
+              Heading: <input type="text" readonly id="heading"> degrees
+            </div>
+        <script async defer
+               src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEO3XUDxf_Jx6rhSk7CXHOaoqaTTu_36o&callback=initMap">
+        </script>
+
+
+        <div id="footer">
+            <div class="container">
+                <p>
+                    <span class="hidden-xs pull-left">
+                        <a href="#" title="Open Source Internet of Things" target="_blank">ThingSpeak.com</a> |
+                        <a href="#" title="The ThingSpeak Blog covering the web of things" target="_blank">Blog</a> |
+                        <a href="#" title="Open discussion forum for ThingSpeak" target="_blank">Forum</a> |
+                        <a href="#" target="_blank">Documentation</a> |
+                        <a href="#" target="_blank">Tutorials</a> |
+                        <a href="#" title="Internet of Things RSS Feed" target="_blank">RSS Feed</a> |
+                        <a href="#" title="ThingSpeak Terms of Use" target="_blank">Terms</a> |
+                        <a href="#" title="ThingSpeak Privacy Policy" target="_blank">Privacy Policy</a>
+                    </span>
+                    <span class="pull-right">
+                        © 2016 <a href="https://www.si2chip.com/" target="_blank">Si2Chip.</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52048065-1', 'si2chip.com');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>
