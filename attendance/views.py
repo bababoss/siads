@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 #---------------------Its for function based views-----------------------
 #from django.http import HttpResponse
 #from django.views.decorators.csrf import csrf_exampt
@@ -414,3 +415,8 @@ def blog(request):
     end_date = datetime.today()
     posts = Blog.objects.filter(publish_date__range=(start_date, end_date)).order_by('publish_date').reverse()
     return render(request, 'attendance/blog.html', {'posts': posts})
+
+def blog_detail(request, pk):
+    posts = get_object_or_404(Blog, pk=pk)
+    post=Blog.objects.filter(pk=pk)
+    return render(request, 'attendance/blog.html', {'posts': post})

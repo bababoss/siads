@@ -3,6 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-widht,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -10,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Sush Earth Rover</title>
+    <title>Bharat Earth Rover</title>
 
     <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -119,8 +120,8 @@ return true;
       <div class="container">
         <nav class="blog-nav">
 
-          <a class="blog-nav-item active" href="sushhome.jsp">SushVision</a>
-          <a class="blog-nav-item" href="#">Innovation</a>
+                     <a class="blog-nav-item active" href="sushhome.jsp">BharatVision</a>
+                      <a class="blog-nav-item" href="#">Innovation</a>
 
         </nav>
       </div>
@@ -129,7 +130,7 @@ return true;
     <div class="container">
 
       <div class="blog-header">
-        <h1 class="blog-title">SushVision Innovation Lab <a href="http://www.sushvision.com/"><img src="/static/images/logo.jpg" height="20%" width="20%"/></a> </h1>
+        <h1 class="blog-title">BharatVision Innovation Lab <a href="http://www.sushvision.com/"><img src="/static/images/logo.jpg" height="20%" width="20%"/></a> </h1>
         <p class="lead blog-description">The new era of vision world</p>
 
 
@@ -150,13 +151,14 @@ return true;
             			<blockquote>
             			<h3>{{ post.topic }}</h3>
             			<ul>
-            				<li>{{ post.topic_content }}</li>
-
+            				<li><pre>{{ post.topic_content }}</pre></li>
+                             <li><pre>{{ post.code }}</pre></li>
 
             			</ul>
 
 
-            			<pre><code><p>{{ post.code }}</p></code></pre>
+
+
                      </blockquote>
 
              {% endfor %}
@@ -165,8 +167,8 @@ return true;
 
           <nav>
             <ul class="pager">
-              <li><a href="vision1.html">Previous</a></li>
-              <li><a href="SushEarthRover1.html">Next</a></li>
+              <li><a href="{% url 'blog_detail' pk=post.pk %}">Previous</a></li>
+              <li><a href="{% url 'blog_detail' pk=post.pk %}">Next</a></li>
             </ul>
           </nav>
 
@@ -175,14 +177,14 @@ return true;
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
-            <p>SushVision Innovation Lab <em>is an organization of entrepreneurs. It is a vision to innovation.</em>  provide healthy solution of vision based complex problem. It provide open vision lab for innovation and contibute its support to develop skilled entrepreneurs.  .</p>
+            <p>BharatVision Innovation Lab <em>is an organization of entrepreneurs. It is a vision to innovation.</em>  provide healthy solution of vision based complex problem. It provide open vision lab for innovation and contibute its support to develop skilled entrepreneurs.  .</p>
           </div>
           <div class="sidebar-module">
             <h4>Archives</h4>
 
             {% for post in posts %}
                 <ol class="list-unstyled">
-                  <li><a href="vision1.html">{{ post.title }}. Publish_Date: {{ post.publish_date.date }}</a></li>
+                  <li><a href="{% url 'blog_detail' pk=post.pk %}">{{ post.title }}</a> Publish_Date: {{ post.publish_date.date }}</a></li>
                 </ol>
             {% endfor %}
 

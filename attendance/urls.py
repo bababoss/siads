@@ -30,6 +30,7 @@ urlpatterns = [
 
     #url for Blog
     url(r'^blog/$',views.blog, name ='blog'),
+    url(r'^blog/(?P<pk>\d+)/$', views.blog_detail, name='blog_detail'),
 
     #url for tracking
     url(r'^tracker/$',views.tracker, name ='tracker'),
